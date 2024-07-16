@@ -1,0 +1,132 @@
+
+#:schema = https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json"
+final_space = true
+version = 2
+
+[[blocks]]
+alignment = "left"
+type = "prompt"
+newline = true
+
+
+  [[blocks.segments]]
+  background = "#29315A"
+  foreground = "#3EC669"
+  leading_diamond = ""
+  style = "diamond"
+  template = " {{ .Path }}"
+  trailing_diamond = " "
+  type = "path"
+
+    [blocks.segments.properties]
+    style = "full"
+
+
+  [[blocks.segments]]
+  background = "#29315A"
+  foreground = "#43CCEA"
+  leading_diamond = ""
+  style = "diamond"
+  template = "{{ .HEAD }}"
+  trailing_diamond = ""
+  type = "git"
+
+    [blocks.segments.properties]
+    branch_icon = ""
+
+
+[[blocks]]
+  type = 'rprompt'
+  overflow = 'hidden'
+
+  [[blocks.segments]]
+  background = "#29315A"
+  foreground = "#E4F34A"
+  leading_diamond = " "
+  style = "diamond"
+  template = "{{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }}{{ .Venv }} {{ end }}{{ .Full }}{{ end }}"
+  trailing_diamond = ""
+  type = "python"
+
+    [blocks.segments.properties]
+    fetch_version = false
+
+  [[blocks.segments]]
+  background = "#29315A"
+  foreground = "#E64747"
+  leading_diamond = ""
+  style = "diamond"
+  template = "{{ .UserName }}"
+  trailing_diamond = ""
+  type = "session"
+
+  [[blocks.segments]]
+  background = "#29315A"
+  foreground = "#9B6BDF"
+  foreground_templates = [
+  "{{if eq \"Charging\" .State.String}}#40c4ff{{end}}",
+  "{{if eq \"Discharging\" .State.String}}#ff5722{{end}}",
+  "{{if eq \"Full\" .State.String}}#4caf50{{end}}"
+]
+  leading_diamond = " "
+  style = "diamond"
+  template = "{{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }}{{ .Error }}"
+  trailing_diamond = ""
+  type = "battery"
+
+    [blocks.segments.properties]
+    charged_icon = " "
+    charging_icon = "⇡ "
+    discharging_icon = "⇣ "
+
+[[blocks]]
+type = "prompt"
+alignment = "left"
+newline = true
+
+  [[blocks.segments]]
+  background = "#29315A"
+  foreground = "#AEA4BF"
+  leading_diamond = ""
+  style = "diamond"
+  template = "{{ .FormattedMs }}"
+  trailing_diamond = " "
+  type = "executiontime"
+
+    [blocks.segments.properties]
+    style = "austin"
+    threshold = 150
+
+  [[blocks.segments]]
+  background = "#29315A"
+  foreground_templates = [
+    "{{if gt .Code 0}}red{{end}}",
+    "{{if eq .Code 0}}#7FD5EA{{end}}",
+  ]
+  leading_diamond = ""
+  style = "diamond"
+  template = "❯"
+  trailing_diamond = ""
+  type = "text"
+
+
+[transient_prompt]
+  foreground_templates = [
+    "{{if gt .Code 0}}red{{end}}",
+    "{{if eq .Code 0}}#7FD5EA{{end}}",
+  ]
+  background = 'transparent'
+  template = '❯ '
+
+[secondary_prompt]
+  background = "#29315A"
+  foreground_templates = [
+    "{{if gt .Code 0}}red{{end}}",
+    "{{if eq .Code 0}}#7FD5EA{{end}}",
+  ]
+  leading_diamond = ""
+  style = "diamond"
+  template = "❯❯" 
+  trailing_diamond = ""
+  type = "text"
+
