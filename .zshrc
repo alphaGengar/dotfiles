@@ -151,9 +151,9 @@ unalias fzfpre 2>/dev/null
 alias fzfpre="fzf --preview 'bat --style=plain --color=always --line-range :500 {}'"
 alias fzfopen="nvim \$(fzf --preview 'bat --style=plain --color=always --line-range :500 --paging=always {}')"
 
-alias organize_cp='(cd ~/downloads/code/CP/inProgres && ~/downloads/code/CP/bashScript/organize_cp.sh)'
-alias rename_files='(cd ~/downloads/code/CP/inProgres && ~/downloads/code/CP/bashScript/rename_files.sh)'
-alias usaco_rename='(cd ~/downloads/code/CP/inProgres && ~/downloads/code/CP/bashScript/usaco_rename.sh)'
+alias organize_cp='(cd ~/downloads/code/CP/inProgress && ~/downloads/code/CP/bashScript/organize_cp.sh)'
+alias rename_files='(cd ~/downloads/code/CP/inProgress && ~/downloads/code/CP/bashScript/rename_files.sh)'
+alias usaco_rename='(cd ~/downloads/code/CP/inProgress && ~/downloads/code/CP/bashScript/usaco_rename.sh)'
 
 
 # Compilation flags
