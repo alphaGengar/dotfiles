@@ -22,11 +22,10 @@ update_cover_art() {
   COVER=$(osascript -e 'tell application "Spotify" to get artwork url of current track')
   if [ "$COVER" != "$PREVIOUS_COVER" ] && [ -n "$COVER" ]; then
     PREVIOUS_COVER="$COVER"
-    # Download cover in background to avoid blocking
     (
-      curl -s --max-time 20 "$COVER" -o "$COVER_PATH.tmp" && \
+      curl -s --max-time 200 "$COVER" -o "$COVER_PATH.tmp" && \
       mv "$COVER_PATH.tmp" "$COVER_PATH" && \
-      sketchybar -m --set spotify.anchor background.image="$COVER_PATH" drawing=on
+      sketchybar --set spotify.anchor background.image="$COVER_PATH"
     ) &
   fi
 }
@@ -51,6 +50,7 @@ update() {
       --set spotify.title "label=${TRACK}"
       --set spotify.artist "label=${ARTIST}"
       --set spotify.artist "label.font=JetBrainsMono Nerd Font:Italic:10.0"
+      --set spotify.anchor background.image="$COVER_PATH"
     )
 
     update_cover_art
