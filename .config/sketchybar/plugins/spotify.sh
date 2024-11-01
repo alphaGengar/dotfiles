@@ -78,6 +78,10 @@ popup() {
   sketchybar --set spotify.anchor popup.drawing=$1
 }
 
+routine() {
+  update
+}
+
 case "$SENDER" in
   "mouse.clicked") mouse_clicked ;;
   "mouse.entered") popup on ;;

@@ -314,7 +314,7 @@ function icon_map() {
   "Live")
     icon_result=":ableton:"
     ;;
-  "Arc")
+  "arc")
     icon_result=":arc:"
     ;;
   "Chromium" | "Google Chrome" | "Google Chrome Canary")

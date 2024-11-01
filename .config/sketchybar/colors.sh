@@ -32,7 +32,7 @@ export BG2=0xff414550
 
 # General bar colors
 export BAR_COLOR=$TRANSPARENT
-export BAR_BORDER_COLOR=$BG2
+export BAR_BORDER_COLOR=$TRANSPARENT
 export BACKGROUND_1=$TRANSPARENT
 export BACKGROUND_2=$BG2
 export ICON_COLOR=$WHITE # Color of all icons
