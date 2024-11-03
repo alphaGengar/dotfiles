@@ -1,98 +1,73 @@
+general.import = [
+  "~/.config/alacritty/catppuccin-mocha.toml"
+  # "~/.config/alacritty/catppuccin-macchiato.toml"
+  # "~/.config/alacritty/catppuccin-frappe.toml"
+  # "~/.config/alacritty/catppuccin-latte.toml"
+
+  # "~/.config/alacritty/rose-pine.toml"
+  # "~/.config/alacritty/rose-pine-moon.toml"
+  # "~/.config/alacritty/rose-pine-dawn.toml"
+  # "~/.config/alacritty/everforest.toml"
+  # "~/.config/alacritty/gruvbox-dark.toml"
+]
 general.live_config_reload = true
 
-general.import = [
-    "~/.config/alacritty/themes/themes/gruvbox_material_hard_dark.toml"
-]
-
-[bell]
-animation = "EaseOutExpo"
-duration = 0
-
-[colors]
-draw_bold_text_with_bright_colors = true
-
-[[colors.indexed_colors]]
-color = "0xF8BD96"
-index = 16
-
-[[colors.indexed_colors]]
-color = "0xF5E0DC"
-index = 17
-
-[colors.bright]
-black = "0x988BA2"
-blue = "0x96CDFB"
-cyan = "0x89DCEB"
-green = "0xABE9B3"
-magenta = "0xF5C2E7"
-red = "0xF28FAD"
-white = "0xD9E0EE"
-yellow = "0xFAE3B0"
-
-[colors.cursor]
-cursor = "0xF5E0DC"
-text = "0x1E1D2F"
-
-[colors.normal]
-black = "0x6E6C7E"
-blue = "0x96CDFB"
-cyan = "0x89DCEB"
-green = "0xABE9B3"
-magenta = "0xF5C2E7"
-red = "0xF28FAD"
-white = "0xD9E0EE"
-yellow = "0xFAE3B0"
-
 [font]
-size = 10
+size = 11
+builtin_box_drawing = true
+
+[font.normal]
+family = "JetBrainsMonoNL Nerd Font Propo"
+style = "Medium"
+
+# [font.normal]
+# family = "Bitstream Vera Sans Mono"
+# style = "Medium"
+#
+#
+# [font.normal]
+# family = "FiraCode Nerd Font Mono"
+# style = "Retina"
+#
+# [font.normal]
+# family = "Hack Nerd Font Mono"
+# style = "Regular"
+#
+# [font.normal]
+# family = "MonoLisa Nerd Font Mono"
+# style = "Regular"
+
 
 [font.bold]
-family = "GeistMono Nerd Font"
+family = "JetBrainsMonoNL Nerd Font Propo"
 style = "Bold"
+
+[font.italic]
+family = "JetBrainsMonoNL Nerd Font Propo"
+style = "Medium Italic"
+
+[font.bold_italic]
+family = "JetBrainsMonoNL Nerd Font Propo"
+style = "Bold Italic"
 
 [font.glyph_offset]
 x = 0
 y = 0
 
-[font.italic]
-family = "GeistMono Nerd Font"
-
-[font.normal]
-family = "GeistMono Nerd Font"
-style = "Regular"
-
 [font.offset]
 x = 0
 y = 0
 
-[mouse]
-hide_when_typing = true
-
-[[mouse.bindings]]
-action = "PasteSelection"
-mouse = "Middle"
-
-[selection]
-semantic_escape_chars = ",│`|:\"' ()[]{}<>"
-
 [window]
 decorations = "Buttonless"
-dynamic_title = true
-startup_mode = "Windowed"
-opacity = 0.35
+opacity = 0.95
 blur = true
-option_as_alt = "Both" 
 
-[window.dimensions]
-columns = 110
-lines = 35
+title = "Terminal"
 
 [window.padding]
-x = 4
-y = 4
+x = 15 
+y = 15
 
-[keyboard]
-bindings = [ 
-  { key = "F1", action = "ToggleSimpleFullScreen" },
-  { key = "F2", action = "ToggleFullScreen" } 
-]
+[env]
+TERM = "xterm-256color"
