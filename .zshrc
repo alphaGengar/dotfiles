@@ -57,8 +57,6 @@ bindkey "^[[B" history-search-forward
 # Alias definitions
 eval "$(zoxide init zsh)"
 alias ls="eza --icons=always"
-alias CP="cd ~/downloads/code/CP"
-alias CY="cd ~/downloads/code/cybersec"
 alias matrix="cmatrix -u 4 -s -a"
 alias connect_pwn="ssh -i ~/Downloads/Code/CyberSec/pwn/key hacker@pwn.college"
 alias organize_cp='(cd ~/downloads/code/CP/inProgress && ~/downloads/code/CP/bashScript/organize_cp.sh)'
@@ -71,15 +69,13 @@ unalias fzfpre 2>/dev/null
 alias fzfpre="fzf --preview 'bat --style=plain --color=always --line-range :500 {}'"
 alias fzfopen="nvim \$(fzf --preview 'bat --style=plain --color=always --line-range :500 --paging=always {}')"
 
-# Python virtual environment
-source ~/.venv/bin/activate
-
 # Pipx paths
 export PATH="$PATH:/Users/swrj/.local/bin"
-export PATH=$PATH:/Users/swrj/.spicetify
 
 # Other sources
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 eval $(thefuck --alias)
 
+# Python virtual environment
+source ~/.venv/bin/activate
