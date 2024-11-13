@@ -12,12 +12,30 @@ nnoremap <silent> coh :call gruvbox#hls_toggle()<CR>
 nnoremap * :let @/ = ""<CR>:call gruvbox#hls_show()<CR>*
 nnoremap / :let @/ = ""<CR>:call gruvbox#hls_show()<CR>/
 nnoremap ? :let @/ = ""<CR>:call gruvbox#hls_show()<CR>?
+
 set background=dark
+
+let t:is_transparent = 0
+
+function! Toggle_transparent()
+    if t:is_transparent == 0
+        hi Normal guibg=NONE ctermbg=NONE
+        let t:is_transparent = 1
+    else
+        " Reset Normal background to Gruvbox default
+        hi Normal guibg=#282828 ctermbg=NONE
+        let t:is_transparent = 0
+    endif
+endfunction
+
+
+let mapleader = " "
+nnoremap <Leader>tt :call Toggle_transparent()<CR>
 
 syntax on
 
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 
 set mouse=a
 set number
@@ -61,3 +79,5 @@ nnoremap c( di(
 nnoremap c{ di{
 nnoremap c[ di[
 nnoremap <Esc> :nohlsearch<CR>
+
+:call Toggle_transparent()

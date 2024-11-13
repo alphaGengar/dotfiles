@@ -1,81 +1,96 @@
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
+# Profiling (uncomment to debug startup time)
+# zmodload zsh/zprof
+# Fix for nested functions limit
+FUNCNEST=1000
 
-# Path setup: customize if you come from bash
-# export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+# Skip all compilation checks
+skip_global_compinit=1
 
-# Path to Oh My Zsh installation
+# Essential path setup
+export PATH=$HOME/bin:/usr/local/bin:$PATH
 export ZSH="$HOME/.oh-my-zsh"
 
-# Theme configuration
-# Set theme name or "random" for a random theme at each shell start.
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
-  eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/emodipt_extend.toml)"
-fi
+# History configuration
+HISTFILE=$HOME/.zhistory
+HISTSIZE=999
+SAVEHIST=1000
+setopt share_history hist_expire_dups_first hist_ignore_dups hist_verify
 
-# Theme aliases
-alias zen="$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/zen.toml)"
-alias tokyo="$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/tokyonight_storm.toml)"
-alias bubbles="$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/bubbles.toml)"
-alias emodipt="$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/emodipt_extend.toml)"
-alias amro="$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/amro.toml)"
+# Load theme immediately but efficiently
+if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
+  # Cache oh-my-posh init for faster loading
+  cache_file="${HOME}/.cache/oh-my-posh-init.zsh"
+  if [[ ! -f "$cache_file" ]] || [[ ! -s "$cache_file" ]] || [[ $(find "$cache_file" -mtime +1) ]]; then
+    mkdir -p "${HOME}/.cache"
+    oh-my-posh init zsh --config $HOME/.config/ohmyposh/emodipt.toml > "$cache_file"
+  fi
+  source "$cache_file"
+fi
 
 # Theme selection function
 function prompt() {
   themes=("zen" "tokyo" "bubbles" "emodipt" "amro")
   theme=$(printf "%s\n" "${themes[@]}" | fzf --prompt="Choose a prompt theme: " --height=~50% --layout=reverse --border --exit-0)
-  if [[ -z $theme ]]; then
-    echo "Nothing selected"
-    return 0
-  fi
-  case $theme in
-    zen) zen ;;
-    tokyo) tokyo ;;
-    bubbles) bubbles ;;
-    emodipt) emodipt ;;
-    amro) amro ;;
-    *) echo "Invalid theme" ;;
-  esac
+  [[ -z $theme ]] && { echo "Nothing selected"; return 0; }
+  eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/${theme}.toml)"
 }
 
-# Plugins and sourcing Oh My Zsh
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting alias-tips copyfile macos dirhistory web-search zsh-vi-mode)
+# Minimal plugin setup
+plugins=(git)
+
+# Disable Oh My Zsh auto-updates completely
+DISABLE_AUTO_UPDATE="true"
+DISABLE_UPDATE_PROMPT="true"
+DISABLE_MAGIC_FUNCTIONS="true"
+COMPLETION_WAITING_DOTS="true"
+
+# Load Oh My Zsh with minimal features
 source $ZSH/oh-my-zsh.sh
 
-# User configuration/
-export EDITOR='nvim'
-HISTFILE=$HOME/.zhistory
-SAVEHIST=1000
-HISTSIZE=999
+# Async load additional features
+function async_load_plugins() {
+  # Remove from precmd after first run
+  precmd_functions=("${(@)precmd_functions:#async_load_plugins}")
+  
+  source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+  source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  
+  # Load zoxide
+  eval "$(zoxide init zsh)"
+}
+precmd_functions+=(async_load_plugins)
 
-# History options
-setopt share_history hist_expire_dups_first hist_ignore_dups hist_verify
+# Key bindings
 bindkey "^[[A" history-search-backward
 bindkey "^[[B" history-search-forward
 
-# Alias definitions
-eval "$(zoxide init zsh)"
+# Environment variables
+export EDITOR='nvim'
+export PATH="$PATH:/Users/swrj/.local/bin"
+
+# Aliases - grouped by functionality
+# File management
 alias ls="eza --icons=always"
-alias matrix="cmatrix -u 4 -s -a"
+alias fzfpre="fzf --preview 'bat --style=plain --color=always --line-range :500 {}'"
+alias fzfopen="nvim \$(fzf --preview 'bat --style=plain --color=always --line-range :500 --paging=always {}')"
+
+# Development
 alias connect_pwn="ssh -i ~/Downloads/Code/CyberSec/pwn/key hacker@pwn.college"
 alias organize_cp='(cd ~/downloads/code/CP/inProgress && ~/downloads/code/CP/bashScript/organize_cp.sh)'
 alias rename_files='(cd ~/downloads/code/CP/inProgress && ~/downloads/code/CP/bashScript/rename_files.sh)'
 alias usaco_rename='(cd ~/downloads/code/CP/inProgress && ~/downloads/code/CP/bashScript/usaco_rename.sh)'
 
-# FZF custom commands
-unalias fzfopen 2>/dev/null
-unalias fzfpre 2>/dev/null
-alias fzfpre="fzf --preview 'bat --style=plain --color=always --line-range :500 {}'"
-alias fzfopen="nvim \$(fzf --preview 'bat --style=plain --color=always --line-range :500 --paging=always {}')"
+# Lazy load heavy commands
+alias fuck='eval $(thefuck $(fc -ln -1)); history -R'
+alias python="python3"
 
-# Pipx paths
-export PATH="$PATH:/Users/swrj/.local/bin"
+# Remove duplicates in $PATH
+typeset -U path PATH
 
-# Other sources
-source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-eval $(thefuck --alias)
+# Activate Python venv only if exists and not already activated
+if [[ -f ~/.venv/bin/activate ]] && [[ -z "${VIRTUAL_ENV}" ]]; then
+  source ~/.venv/bin/activate
+fi
 
-# Python virtual environment
-source ~/.venv/bin/activate
+# Profiling end (uncomment to debug startup time)
+# zprof
