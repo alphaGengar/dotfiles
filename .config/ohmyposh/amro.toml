@@ -1,62 +1,61 @@
-"$schema" = "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json"
-version = 2
-
-[[blocks]]
-newline = true
-alignment = "left"
-type = "prompt"
-
-  [[blocks.segments]]
-  foreground = "#45F1C2"
-  style = "plain"
-  template = " {{ .UserName }} on"
-  type = "session"
-
-  [[blocks.segments]]
-  foreground = "#0CA0D8"
-  style = "plain"
-  template = "  {{ .Path }} "
-  type = "path"
-
-    [blocks.segments.properties]
-    folder_separator_icon = "/"
-    style = "full"
-
-  [[blocks.segments]]
-  foreground = "#14A5AE"
-  powerline_symbol = ""
-  style = "plain"
-  template = "{{ .UpstreamIcon }}{{ .HEAD }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} "
-  type = "git"
-
-    [blocks.segments.properties]
-    fetch_stash_count = true
-    fetch_upstream_icon = true
-
-[[blocks]]
-alignment = "left"
-newline = true
-type = "prompt"
-
-  [[blocks.segments]]
-  foreground = "#cd5e42"
-  style = "plain"
-  template = " "
-  type = "root"
-
-  [[blocks.segments]]
-  foreground = "#CD4277"
-  style = "plain"
-  template = "#  "
-  type = "text"
+version = 3
 
 [secondary_prompt]
+  template = '## '
   foreground = '#CD4277'
   background = 'transparent'
-  template = '## '
 
 [transient_prompt]
-  foreground = "#CD4277"
-  style = "plain"
-  template = "#  "
-  type = "text"
+  style = 'plain'
+  template = '#  '
+  foreground = '#CD4277'
+  type = 'text'
+
+[[blocks]]
+  type = 'prompt'
+  alignment = 'left'
+  newline = true
+
+  [[blocks.segments]]
+    style = 'plain'
+    template = ' {{ .UserName }} on'
+    foreground = '#45F1C2'
+    type = 'session'
+
+  [[blocks.segments]]
+    style = 'plain'
+    template = '  {{ .Path }} '
+    foreground = '#0CA0D8'
+    type = 'path'
+
+    [blocks.segments.properties]
+      folder_separator_icon = '/'
+      style = 'full'
+
+  [[blocks.segments]]
+    style = 'plain'
+    template = '{{ .UpstreamIcon }}{{ .HEAD }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} '
+    foreground = '#14A5AE'
+    powerline_symbol = ''
+    type = 'git'
+
+    [blocks.segments.properties]
+      fetch_stash_count = true
+      fetch_upstream_icon = true
+
+[[blocks]]
+  type = 'prompt'
+  alignment = 'left'
+  newline = true
+
+  [[blocks.segments]]
+    style = 'plain'
+    template = ' '
+    foreground = '#cd5e42'
+    type = 'root'
+
+  [[blocks.segments]]
+    style = 'plain'
+    template = '#  '
+    foreground = '#CD4277'
+    type = 'text'

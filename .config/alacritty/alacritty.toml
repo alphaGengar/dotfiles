@@ -60,13 +60,12 @@ y = 0
 
 [window]
 decorations = "Buttonless"
-opacity = 0.95
+opacity = 0.85
 blur = true
-
 title = "Terminal"
 
 [window.padding]
-x = 15 
+x = 11
 y = 15
 
 [env]

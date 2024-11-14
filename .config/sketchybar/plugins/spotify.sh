@@ -15,6 +15,7 @@ play() {
   fi
 
   # Toggle play/pause state
+  # osascript -e 'tell application "Spotify" to playpause
   nowplaying-cli togglePlayPause &  # Run in background to prevent blocking
 }
 
