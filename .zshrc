@@ -84,6 +84,22 @@ alias usaco_rename='(cd ~/downloads/code/CP/inProgress && ~/downloads/code/CP/ba
 alias fuck='eval $(thefuck $(fc -ln -1)); history -R'
 alias python="python3"
 
+alias nvim-zen="NVIM_APPNAME=nvim_zen nvim"
+
+function nvims() {
+  items=("default" "Zen")
+  config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config " --height=~50% --layout=reverse --border --exit-0)
+  if [[ -z $config ]]; then
+    echo "Nothing selected"
+    return 0
+  elif [[ $config == "default" ]]; then
+    NVIM_APPNAME=nvim
+  elif [[ $config == "Zen" ]]; then
+    NVIM_APPNAME=nvim_zen
+  fi
+  NVIM_APPNAME=$NVIM_APPNAME nvim "$@"
+}
+
 # Remove duplicates in $PATH
 typeset -U path PATH
 
