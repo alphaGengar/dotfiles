@@ -1,5 +1,5 @@
 # bsp, stack or flaot
-yabai -m config layout float
+yabai -m config layout bsp
 
 yabai -m config window_placement second_child
 # padding
@@ -21,15 +21,6 @@ yabai -m config mouse_modifier alt
 
 # set modifier + left-click drag to move window
 yabai -m config mouse_action1 move
-
-# set modifier + right-click drag to resize window
-yabai -m config mouse_action2 resize
-
-# smooth operator
-yabai -m config window_animations on
-
-# when window is dropped in center of another window, swap them (on edges it will split it)
-yabai -m mouse_drop_action swap
 
 # ignored when using yabai
 yabai -m rule --add app="^System Settings$" manage=off
