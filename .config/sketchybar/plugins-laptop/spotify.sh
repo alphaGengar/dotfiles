@@ -1,7 +1,7 @@
 #!/bin/bash
 # Max number of characters so it fits nicely to the right of the notch
 # MAY NOT WORK WITH NON-ENGLISH CHARACTERS
-MAX_LENGTH=34
+MAX_LENGTH=33
 HALF_LENGTH=$(((MAX_LENGTH + 1) / 2))
 SPOTIFY_JSON="$INFO"
 COVER_PATH="/tmp/cover.jpg"
