@@ -6,17 +6,7 @@ HALF_LENGTH=$(((MAX_LENGTH + 1) / 2))
 SPOTIFY_JSON="$INFO"
 COVER_PATH="/tmp/cover.jpg"
 PREVIOUS_COVER=""
-# Function to sanitize the track name by removing "FEAT", parentheses, and extra spaces
-sanitize_track_name() {
-    local track=$1
-    # First, remove everything from "FEAT" or "feat" or "FEAT." and onward
-    track=$(echo "$track" | sed -E 's/\s*(Feat|feat|FEAT).*//')
-    # Now remove any remaining parentheses and their content
-    track=$(echo "$track" | tr -d '()[]')
-    # Remove any extra spaces at the end
-    track=$(echo "$track" | sed 's/[[:space:]]*$//')
-    echo "$track"
-}
+
 # Function to update album cover art
 update_cover_art() {
     COVER=$(osascript -e 'tell application "Spotify" to get artwork url of current track')
@@ -43,7 +33,6 @@ update_track() {
     PLAYER_STATE=$(echo "$SPOTIFY_JSON" | jq -r '.["Player State"]')
     if [ $PLAYER_STATE = "Playing" ]; then
         TRACK="$(echo "$SPOTIFY_JSON" | jq -r .Name)"
-        TRACK=$(sanitize_track_name "$TRACK") # Remove "FEAT" part, parentheses, and spaces
         ARTIST="$(echo "$SPOTIFY_JSON" | jq -r .Artist)"
         # Calculations so it fits nicely
         TRACK_LENGTH=${#TRACK}
