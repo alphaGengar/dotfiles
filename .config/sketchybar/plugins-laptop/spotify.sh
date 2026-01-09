@@ -61,6 +61,7 @@ update_track() {
         sketchybar --set $NAME icon.color=0xffeed49f
     fi
 }
+
 case "$SENDER" in
 "mouse.clicked")
     osascript -e 'tell application "Spotify" to playpause'

@@ -108,3 +108,6 @@ fi
 # zprof
 
 export PATH=$PATH:/Users/swrj/.spicetify
+
+export NVM_DIR="$HOME/.nvm"
+. $(brew --prefix nvm)/nvm.sh
