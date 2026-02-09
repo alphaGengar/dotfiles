@@ -1,26 +1,24 @@
 local M = {}
 
 M.keys = {
-  { "s",  mode = { "n", "x", "o" }, desc = "Leap Forward to" },
-  { "S",  mode = { "n", "x", "o" }, desc = "Leap Backward to" },
-  { "gs", mode = { "n", "x", "o" }, desc = "Leap from Windows" },
+  { "s", mode = { "n", "x", "o" }, desc = "Leap forward to" },
+  { "S", mode = { "n", "x", "o" }, desc = "Leap backward to" },
+  { "gs", mode = { "n", "x", "o" }, desc = "Leap from windows" },
 }
 
-function M.config(_, opts)
-  local leap = require("leap")
+M.opts = {}
 
-  -- Apply user options
-  for k, v in pairs(opts or {}) do
+function M.setup(opts)
+  local leap = require("leap")
+  local options = opts or M.opts
+
+  for k, v in pairs(options) do
     leap.opts[k] = v
   end
 
-  -- Setup mappings
   leap.add_default_mappings(true)
-
-  -- Remove conflicting mappings
   vim.keymap.del({ "x", "o" }, "x")
   vim.keymap.del({ "x", "o" }, "X")
 end
 
 return M
-

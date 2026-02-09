@@ -40,7 +40,7 @@ M = {
       offsets = {
         {
           filetype = "NvimTree",
-         text = "File Explorer",
+          text = "File Explorer",
           highlight = "Directory",
           separator = true,
         },
@@ -108,21 +108,6 @@ M = {
     theme = "grid", -- simple/grid
   },
 
-  mason = {
-    pkgs = {
-      "black",
-      "clang-format",
-      "clangd",
-      "debugpy",
-      "lua-language-server",
-      "pyright",
-      "ruff",
-      "ruff-lsp",
-      "stylua",
-      "bash-language-server",
-    }
-  },
-
   colorify = {
     enabled = false,
     mode = "virtual",
@@ -131,6 +116,7 @@ M = {
   },
 }
 
+-- Legacy NvChad field (plugin loading is handled by lazy imports in init.lua)
 M.plugins = "custom.plugins"
 
 return M

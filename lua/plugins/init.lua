@@ -1,11 +1,10 @@
 return {
-  -- These are some examples, uncomment them if you want to see them work!
   {
     "neovim/nvim-lspconfig",
     version = "^2",
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
       require "configs.lspconfig"
-
     end,
   },
 
@@ -22,7 +21,7 @@ return {
         "cpp",
         "java",
         "python",
-        "bash"
+        "bash",
       },
     },
   },

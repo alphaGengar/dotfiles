@@ -1,4 +1,3 @@
--- Load NvChad base mappings
 require "nvchad.mappings"
 
 local unpack = table.unpack or unpack
@@ -22,19 +21,29 @@ M.general = {
   { "i", "jk",         "<ESC>",                   { desc = "Exit insert mode" } },
 }
 
--- LSP related mappings
-M.lsp = {
-  { "n", "<leader>ra", ':lua require("nvchad.lsp.renamer")()<CR>',     { desc = "LSP Rename" } },
-  {
-    "n",
-    "<leader>fm",
-    function()
-      vim.lsp.buf.format { async = true }
-    end,
-    { desc = "LSP formatting" },
-  },
-  { "n", "<leader>ca", ':lua require("actions-preview").code_actions()<CR>', { desc = "LSP Code Actions" } },
+M.clipboard = {
+  { "n", "y",  '"+y',  { desc = "Yank to clipboard" } },
+  { "n", "Y",  '"+Y',  { desc = "Yank line to clipboard" } },
+  { "n", "yy", '"+yy', { desc = "Yank line to clipboard" } },
 }
+
+M.editing = {
+  { "i", "{",     "{}<Left>",         { desc = "Auto-close braces" } },
+  { "i", "{<CR>", "{<CR>}<ESC>O",     { desc = "Auto-close braces with newline" } },
+  { "i", "{{",    "{",                { desc = "Insert literal {" } },
+  { "i", "{}",    "{}",               { desc = "Insert {}" } },
+  { "i", "[",     "[]<Left>",         { desc = "Auto-close brackets" } },
+  { "i", "[]",    "[]",               { desc = "Insert []" } },
+  { "i", "(",     "()<Left>",         { desc = "Auto-close parens" } },
+  { "i", "()",    "()",               { desc = "Insert ()" } },
+  { "n", "c(",    "di(",              { desc = "Change inside ()" } },
+  { "n", "c{",    "di{",              { desc = "Change inside {}" } },
+  { "n", "c[",    "di[",              { desc = "Change inside []" } },
+  { "n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlights" } },
+}
+
+-- LSP related mappings
+M.lsp = require("configs.lsp_keymaps").global
 
 -- Competitive Programming mappings (CompetiTest plugin)
 M.competitive = {

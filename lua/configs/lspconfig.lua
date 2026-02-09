@@ -1,64 +1,19 @@
--- lsp.lua
 local lspconfig = require("lspconfig")
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
+local lsp_keymaps = require("configs.lsp_keymaps")
 
--- LSP capabilities
-local function get_capabilities()
-  local capabilities = cmp_nvim_lsp.default_capabilities()
-  capabilities.textDocument.completion.completionItem = {
-    snippetSupport = true,
-    preselectSupport = true,
-    insertReplaceSupport = true,
-    labelDetailsSupport = true,
-    deprecatedSupport = true,
-    commitCharactersSupport = true,
-    documentationFormat = { "markdown", "plaintext" },
-  }
-  return capabilities
-end
+local capabilities = cmp_nvim_lsp.default_capabilities()
+capabilities.textDocument.completion.completionItem = {
+  snippetSupport = true,
+  preselectSupport = true,
+  insertReplaceSupport = true,
+  labelDetailsSupport = true,
+  deprecatedSupport = true,
+  commitCharactersSupport = true,
+  documentationFormat = { "markdown", "plaintext" },
+}
 
--- LSP on_attach function (key mappings and diagnostics)
-local function on_attach(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local opts = { noremap = true, silent = true }
-
-  -- LSP keymaps
-  local keymaps = {
-    ["gD"] = "vim.lsp.buf.declaration()",
-    ["gd"] = "vim.lsp.buf.definition()",
-    ["K"] = "vim.lsp.buf.hover()",
-    ["gi"] = "vim.lsp.buf.implementation()",
-    ["<C-k>"] = "vim.lsp.buf.signature_help()",
-    ["<space>wa"] = "vim.lsp.buf.add_workspace_folder()",
-    ["<space>wr"] = "vim.lsp.buf.remove_workspace_folder()",
-    ["<space>wl"] = "print(vim.inspect(vim.lsp.buf.list_workspace_folders()))",
-    ["<space>D"] = "vim.lsp.buf.type_definition()",
-    ["<space>ra"] = "vim.lsp.buf.rename()",
-    ["gr"] = "vim.lsp.buf.references()",
-    ["<space>z"] = "vim.diagnostic.open_float()",
-    ["[d"] = "vim.diagnostic.goto_prev()",
-    ["]d"] = "vim.diagnostic.goto_next()",
-    ["<space>q"] = "vim.diagnostic.setloclist()",
-  }
-
-  for key, cmd in pairs(keymaps) do
-    buf_set_keymap("n", key, string.format("<cmd>lua %s<CR>", cmd), opts)
-  end
-
-  -- Document highlight
-  if client.server_capabilities.documentHighlightProvider then
-    vim.api.nvim_exec([[
-      augroup lsp_document_highlight
-        autocmd! * <buffer>
-        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-      augroup END
-    ]], false)
-  end
-
-  -- Diagnostic signs
-
-  vim.diagnostic.config({
+vim.diagnostic.config({
   signs = {
     severity = {
       min = vim.diagnostic.severity.HINT,
@@ -66,9 +21,9 @@ local function on_attach(client, bufnr)
     },
     values = {
       Error = " ",
-      Warn  = " ",
-      Hint  = " ",
-      Info  = " ",
+      Warn = " ",
+      Hint = " ",
+      Info = " ",
     },
   },
   virtual_text = true,
@@ -77,7 +32,24 @@ local function on_attach(client, bufnr)
   float = { border = "rounded" },
 })
 
-  -- Diagnostic popup
+local function on_attach(client, bufnr)
+  lsp_keymaps.apply(bufnr)
+
+  if client.server_capabilities.documentHighlightProvider then
+    local group = vim.api.nvim_create_augroup("lsp_document_highlight", { clear = false })
+    vim.api.nvim_clear_autocmds({ group = group, buffer = bufnr })
+    vim.api.nvim_create_autocmd("CursorHold", {
+      group = group,
+      buffer = bufnr,
+      callback = vim.lsp.buf.document_highlight,
+    })
+    vim.api.nvim_create_autocmd("CursorMoved", {
+      group = group,
+      buffer = bufnr,
+      callback = vim.lsp.buf.clear_references,
+    })
+  end
+
   vim.api.nvim_create_autocmd("CursorHold", {
     buffer = bufnr,
     callback = function()
@@ -89,12 +61,11 @@ local function on_attach(client, bufnr)
         prefix = " ",
         scope = "cursor",
       })
-    end
+    end,
   })
 end
 
--- Server configurations
-local server_configs = {
+local servers = {
   clangd = {
     filetypes = { "cpp" },
     init_options = {
@@ -114,12 +85,7 @@ local server_configs = {
       },
     },
   },
-
-  bashls = {
-
-    filetypes = { "sh", "bash", "zsh" }
-  },
-
+  bashls = { filetypes = { "sh", "bash", "zsh" } },
   ruff = { filetypes = { "python" } },
   pyright = { filetypes = { "python" } },
   jdtls = { filetypes = { "java" } },
@@ -137,34 +103,21 @@ local server_configs = {
       },
     },
   },
-
-  html = {
-    filetypes = { "html" },
-  },
-  cssls = {
-    filetypes = { "css", "scss", "less" },
-  },
-  ts_ls = {
-    filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-  },
+  html = { filetypes = { "html" } },
+  cssls = { filetypes = { "css", "scss", "less" } },
+  ts_ls = { filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" } },
   emmet_ls = {
-    filetypes = {
-      "html", "css", "scss", "javascriptreact", "typescriptreact"
-    },
+    filetypes = { "html", "css", "scss", "javascriptreact", "typescriptreact" },
     init_options = {
       html = { options = { ["bem.enabled"] = true } },
     },
   },
-  jsonls = {
-    filetypes = { "json", "jsonc" },
-  },
+  jsonls = { filetypes = { "json", "jsonc" } },
 }
 
--- Setup for LSP servers
-for _, server in ipairs({ "clangd", "ruff", "pyright", "lua_ls", "jdtls", "bashls", "html", "cssls", "ts_ls", "emmet_ls", "jsonls" }) do
-  lspconfig[server].setup({
+for server, config in pairs(servers) do
+  lspconfig[server].setup(vim.tbl_deep_extend("force", {
     on_attach = on_attach,
-    capabilities = get_capabilities(),
-    settings = server_configs[server],
-  })
+    capabilities = capabilities,
+  }, config))
 end

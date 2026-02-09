@@ -1,21 +1,19 @@
 local lazy_plugins = {
-  -- UI Enhancements
+  -- UI
   {
-    'nvim-lualine/lualine.nvim',
+    "nvim-lualine/lualine.nvim",
     lazy = false,
     config = function()
       require("configs.lualine")
-    end
+    end,
   },
-
   {
     "rcarriga/nvim-notify",
     event = "VeryLazy",
     opts = function()
       return require("configs.notify")
-    end
+    end,
   },
-
   {
     "folke/noice.nvim",
     event = "VeryLazy",
@@ -27,45 +25,39 @@ local lazy_plugins = {
     },
     opts = function()
       return require("configs.noice")
-    end
+    end,
   },
-
   {
-    'goolord/alpha-nvim',
+    "goolord/alpha-nvim",
     event = "VimEnter",
     config = function()
       require("configs.alpha")
-    end
+    end,
   },
 
   -- Navigation
   {
     "ggandor/leap.nvim",
     enabled = true,
-    opts = function()
-      return require("configs.leap")
-    end
+    keys = require("configs.leap").keys,
+    config = function()
+      require("configs.leap").setup()
+    end,
   },
 
-  -- LSP and Code Quality
+  -- LSP UI
   {
-    lazy = true,
-    event = "LspAttach",
     "aznhe21/actions-preview.nvim",
-    config = function()
-      require("configs.code_actions")
+    event = "LspAttach",
+    config = function(_, opts)
+      require("actions-preview").setup(opts)
+    end,
+    opts = function()
+      return require("configs.code_actions")
     end,
   },
 
-  {
-    "neovim/nvim-lspconfig",
-    event = "InsertEnter",
-    ft = { "lua", "cpp", "python", "zsh", "sh", "java" },
-    config = function()
-      require("configs.lspconfig")
-    end,
-  },
-
+  -- Completion
   {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
@@ -73,7 +65,6 @@ local lazy_plugins = {
       require("configs.cmp")
     end,
   },
-
   {
     "L3MON4D3/LuaSnip",
     event = "InsertEnter",
@@ -83,61 +74,42 @@ local lazy_plugins = {
       require("luasnip.loaders.from_vscode").lazy_load()
     end,
   },
-
   {
     "rafamadriz/friendly-snippets",
     lazy = true,
   },
+  { "saadparwaiz1/cmp_luasnip", event = "InsertEnter" },
+  { "hrsh7th/cmp-nvim-lsp", event = "InsertEnter" },
+  { "hrsh7th/cmp-buffer", event = "InsertEnter" },
+  { "hrsh7th/cmp-path", event = "InsertEnter" },
 
-  {
-    "saadparwaiz1/cmp_luasnip",
-    event = "InsertEnter",
-  },
-
-  {
-    "hrsh7th/cmp-nvim-lsp",
-    event = "InsertEnter",
-  },
-
-  {
-    "hrsh7th/cmp-buffer",
-    event = "InsertEnter",
-  },
-
-  {
-    "hrsh7th/cmp-path",
-    event = "InsertEnter",
-  },
-
-  -- {
-  --   'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
-  --   event = 'LspAttach',
-  --   opts = {},
-  -- },
-
-  -- Package Management
+  -- Package management
   {
     "williamboman/mason.nvim",
     event = "VeryLazy",
+    config = function(_, opts)
+      require("mason").setup(opts)
+      vim.api.nvim_create_user_command("MasonInstallAll", function()
+        vim.cmd("MasonInstall " .. table.concat(opts.ensure_installed, " "))
+      end, {})
+      vim.g.mason_binaries_list = opts.ensure_installed
+    end,
     opts = function()
       return require("configs.mason")
-    end
+    end,
   },
 
-  -- Development Tools
+  -- Dev tools
   {
-    'ptdewey/yankbank-nvim',
-    dependencies = 'kkharji/sqlite.lua',
-    lazy = true,
+    "ptdewey/yankbank-nvim",
+    dependencies = "kkharji/sqlite.lua",
     event = "VeryLazy",
     opts = function()
       return require("configs.yankbank")
-    end
+    end,
   },
-
   {
     "kawre/leetcode.nvim",
-    lazy = true,
     cmd = "Leet",
     build = ":TSUpdate html",
     dependencies = {
@@ -149,31 +121,21 @@ local lazy_plugins = {
     },
     opts = function()
       return require("configs.leetcode")
-    end
+    end,
   },
-
   {
     "xeluxee/competitest.nvim",
-    event = "VeryLazy",
-    requires = "MunifTanjim/nui.nvim",
     ft = "cpp",
+    event = "VeryLazy",
+    dependencies = "MunifTanjim/nui.nvim",
+    config = function(_, opts)
+      require("competitest").setup(opts)
+    end,
     opts = function()
       return require("configs.competitest")
     end,
   },
 
-  -- Misc
-  {
-    "vyfor/cord.nvim",
-    build = "./build || .\\build",
-    event = "VeryLazy",
-    opts = {},
-  },
-
-  -- {
-  --   "github/copilot.vim",
-  --   lazy = false,
-  -- },
 }
 
 return lazy_plugins
