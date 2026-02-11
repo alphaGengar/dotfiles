@@ -97,10 +97,11 @@ function nvims() {
 # Remove duplicates in $PATH
 typeset -U path PATH
 
-# Activate Python venv only if exists and not already activated
-if [[ -f ~/.venv/bin/activate ]] && [[ -z "${VIRTUAL_ENV}" ]]; then
-  source ~/.venv/bin/activate
-fi
+# Python defaults: no global auto-venv
+# Use `pyvenv` in a project to create + activate a local venv.
+pyvenv() {
+  python3 -m venv .venv && source .venv/bin/activate
+}
 
 . "$HOME/.cargo/env"            # For sh/bash/zsh/ash/dash/pdksh
 
