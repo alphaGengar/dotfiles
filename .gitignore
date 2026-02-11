@@ -1,7 +1,3 @@
-.config/gh/
-.config/github-copilot/
-.config/pulse/
-.config/raycast/
 __pycache__/
 *.pyc
 .DS_Store
