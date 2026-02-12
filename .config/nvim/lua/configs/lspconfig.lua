@@ -1,4 +1,8 @@
-local lspconfig = require("lspconfig")
+local use_native = vim.lsp and vim.lsp.config and vim.lsp.enable
+local lspconfig = nil
+if not use_native then
+  lspconfig = require("lspconfig")
+end
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
 local lsp_keymaps = require("configs.lsp_keymaps")
 
@@ -70,10 +74,10 @@ local servers = {
     filetypes = { "cpp" },
     init_options = {
       clangdFileStatus = true,
-      cmd = {
-        "clangd",
-        "--query-driver=/opt/homebrew/bin/g++-15",
-      },
+    },
+    cmd = {
+      "clangd",
+      "--query-driver=/opt/homebrew/bin/g++-15",
     },
   },
   bashls = { filetypes = { "sh", "bash", "zsh" } },
@@ -107,8 +111,15 @@ local servers = {
 }
 
 for server, config in pairs(servers) do
-  lspconfig[server].setup(vim.tbl_deep_extend("force", {
+  local merged = vim.tbl_deep_extend("force", {
     on_attach = on_attach,
     capabilities = capabilities,
-  }, config))
+  }, config)
+
+  if use_native then
+    vim.lsp.config(server, merged)
+    vim.lsp.enable(server)
+  else
+    lspconfig[server].setup(merged)
+  end
 end
