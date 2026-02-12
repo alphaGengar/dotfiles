@@ -136,22 +136,6 @@ local lazy_plugins = {
     end,
   },
 
-  -- Which-key (organized keybinds)
-  {
-    "folke/which-key.nvim",
-    keys = { "<leader>" },
-    config = function()
-      require("which-key").setup({
-        plugins = { spelling = true },
-        window = { border = "rounded" },
-      })
-      require("configs.whichkey")
-    end,
-  },
-
-  -- Icons for which-key health (optional)
-  { "echasnovski/mini.icons", event = "VeryLazy", opts = {} },
-
   -- Debugger (lazy)
   {
     "mfussenegger/nvim-dap",
