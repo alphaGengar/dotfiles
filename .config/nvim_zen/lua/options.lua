@@ -16,6 +16,13 @@ opt.termguicolors = true
 opt.signcolumn = "yes"
 opt.showmode = false
 opt.fillchars = { eob = "~" }
+opt.laststatus = 3
+opt.pumblend = 10
+opt.winblend = 10
+opt.scrolloff = 8
+opt.sidescrolloff = 8
+opt.splitbelow = true
+opt.splitright = true
 opt.hidden = true
 opt.updatetime = 100
 opt.mouse = "a"
