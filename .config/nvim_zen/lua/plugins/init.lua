@@ -1,0 +1,22 @@
+return {
+  { "nvim-lspconfig", enabled = false },
+  { "williamboman/mason.nvim", enabled = false },
+  { "hrsh7th/nvim-cmp", enabled = false },
+  { "L3MON4D3/LuaSnip", enabled = false },
+  { "rafamadriz/friendly-snippets", enabled = false },
+  { "saadparwaiz1/cmp_luasnip", enabled = false },
+  { "hrsh7th/cmp-nvim-lsp", enabled = false },
+  { "hrsh7th/cmp-buffer", enabled = false },
+  { "hrsh7th/cmp-path", enabled = false },
+  { "folke/noice.nvim", enabled = false },
+  { "rcarriga/nvim-notify", enabled = false },
+  { "goolord/alpha-nvim", enabled = false },
+  { "ggandor/leap.nvim", enabled = false },
+  { "ptdewey/yankbank-nvim", enabled = false },
+  { "kawre/leetcode.nvim", enabled = false },
+  { "xeluxee/competitest.nvim", enabled = false },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = { ensure_installed = { "vim", "lua", "vimdoc" } },
+  },
+}
