@@ -2,14 +2,25 @@ local M = {}
 
 local state = { win = nil, buf = nil }
 
+local function map_get(mode)
+  if vim.keymap and type(vim.keymap.get) == "function" then
+    return vim.keymap.get(mode)
+  end
+  local ok, maps = pcall(vim.api.nvim_get_keymap, mode)
+  if not ok then
+    return {}
+  end
+  return maps
+end
+
 local function collect_lines()
   local modes = { "n", "i", "v", "x", "s", "o", "t", "c" }
   local entries = {}
   local seen = {}
 
   for _, mode in ipairs(modes) do
-    for _, map in ipairs(vim.keymap.get(mode)) do
-      local lhs = map.lhs or ""
+    for _, map in ipairs(map_get(mode)) do
+      local lhs = map.lhs or map.lhsraw or ""
       local desc = map.desc or ""
       if desc ~= "" and lhs ~= "" and not lhs:match("^<Plug>") then
         local key = mode .. "|" .. lhs .. "|" .. desc
