@@ -33,7 +33,7 @@ end
 if dapui then
   dapui.setup({
     icons = { expanded = "▾", collapsed = "▸", current_frame = "▸" },
-    controls = { enabled = true },
+    controls = { enabled = false },
   })
 end
 
