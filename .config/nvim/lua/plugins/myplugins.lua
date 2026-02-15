@@ -37,7 +37,7 @@ local lazy_plugins = {
 
   -- Navigation
   {
-    "ggandor/leap.nvim",
+    url = "https://codeberg.org/andyg/leap.nvim",
     enabled = true,
     keys = require("configs.leap").keys,
     config = function()
