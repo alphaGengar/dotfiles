@@ -8,8 +8,8 @@ sketchybar --bar \
     color=0x00000000 \
     margin=0 \
     sticky=on \
-    padding_left=17 \
-    padding_right=17 \
+    padding_left=25 \
+    padding_right=21 \
     notch_width=175 \
     display=main
 
