@@ -103,8 +103,6 @@ pyvenv() {
   python3 -m venv .venv && source .venv/bin/activate
 }
 
-. "$HOME/.cargo/env"            # For sh/bash/zsh/ash/dash/pdksh
-
 # Profiling end (uncomment to debug startup time)
 # zprof
 

@@ -1,4 +1,4 @@
-# bsp, stack or flaot
+# bsp, stack or float
 yabai -m config layout bsp
 
 yabai -m config window_placement second_child
@@ -10,6 +10,10 @@ yabai -m config right_padding 12
 yabai -m config window_gap 12
 
 yabai -m rule --add app="Visual Studio Code" opacity=0.7
+
+# New windows should not be inserted into the bsp tree automatically.
+# Use the skhd float toggle on a focused window when you want yabai to manage it.
+yabai -m rule --add app=".*" manage=off
 
 # sketchybar
 yabai -m config external_bar all:32:0
